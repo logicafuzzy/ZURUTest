@@ -3,6 +3,5 @@
 
 FMeshParams UDefaultParametersUpdateStrategy::DoParametersUpdate(const FMeshParams& Input) const
 {
-	auto Output = FMeshParams(Input);
-	return MoveTemp(Output);
+	return Input;
 }

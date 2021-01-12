@@ -7,7 +7,7 @@
 
 #include "ParametricGenerator.generated.h"
 
-USTRUCT(BLueprintable)
+USTRUCT(Blueprintable)
 struct FMeshParams
 {
 	GENERATED_BODY()
