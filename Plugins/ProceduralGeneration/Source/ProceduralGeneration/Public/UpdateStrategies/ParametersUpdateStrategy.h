@@ -5,14 +5,13 @@
 
 #include "ParametersUpdateStrategy.generated.h"
 
-UCLASS(Blueprintable, meta = (BlueprintSpawnableComponent))
+
+UCLASS(Abstract)
 class PROCEDURALGENERATION_API UParametersUpdateStrategy : public UObject
 {
 	GENERATED_BODY()
 	
 public:
 
-	UFUNCTION(BlueprintImplementableEvent)
-	FMeshParams DoParametersUpdate(const FMeshParams& Input);
-	FMeshParams DoParametersUpdate_Implementation(const FMeshParams& Input);
+	virtual FMeshParams DoParametersUpdate(const FMeshParams& Input) const;
 };

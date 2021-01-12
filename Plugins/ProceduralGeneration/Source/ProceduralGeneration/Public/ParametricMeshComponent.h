@@ -2,21 +2,22 @@
 
 #include "CoreMinimal.h"
 
-#include "Components/MeshComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "DynamicMesh3.h"
+
 #include "Generators/ParametricGenerator.h"
-#include "ParametersUpdateStrategy.h"
+#include "UpdateStrategies/ParametersUpdateStrategy.h"
 
 #include "ParametricMeshComponent.generated.h"
 
 UCLASS(Blueprintable, meta = (BlueprintSpawnableComponent))
-class PROCEDURALGENERATION_API UParametricMeshComponent : public UMeshComponent
+class PROCEDURALGENERATION_API UParametricMeshComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 	
 public:
 
-	UPROPERTY(BlueprintReadWrite)
-	UParametersUpdateStrategy* UpdateStrategy;
+	UParametricMeshComponent();
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FMeshParams MeshParams;
@@ -24,9 +25,21 @@ public:
 	UFUNCTION(Blueprintcallable)
 	void UpdateMesh();
 
+	UFUNCTION()
+	void SetParametersUpdateStrategy(UParametersUpdateStrategy* NewUpdateStrategy);
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UMaterialInterface* Material;
+
 protected:
-	FParametricGenerator* MeshGenerator;
+	TSharedPtr<FParametricGenerator> MeshGenerator;
+
+	void UpdateStaticMeshFromDynamicMesh(UStaticMesh* InStaticMesh, const FDynamicMesh3& Mesh);
 
 private:
+	// Initialized as UDefaultParametersUpdateStrategy 
+	UPROPERTY()
+	UParametersUpdateStrategy* UpdateStrategy;
 
+	FDynamicMesh3 DynamicMesh;
 };

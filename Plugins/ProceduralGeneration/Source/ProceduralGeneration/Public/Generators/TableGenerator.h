@@ -2,9 +2,9 @@
 
 #include "CoreMinimal.h"
 
-#include "ParametricGenerator.h"
+#include "Generators/MeshShapeGenerator.h"
 
-class PROCEDURALGENERATION_API FTableGenerator : public FParametricGenerator
+class PROCEDURALGENERATION_API FTableGenerator : public FMeshShapeGenerator
 {
 public:
 	FTableGenerator();

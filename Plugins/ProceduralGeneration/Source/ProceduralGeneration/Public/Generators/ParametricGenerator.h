@@ -12,10 +12,10 @@ struct FMeshParams
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TMap<FName, float> ScalarParams;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TMap<FName, FVector> VectorParams;
 };
 
@@ -24,8 +24,13 @@ class PROCEDURALGENERATION_API FParametricGenerator : public FMeshShapeGenerator
 public:
 	FMeshParams MeshParams;
 
-	virtual FMeshShapeGenerator& Generate() override
-	{
-		return *this;
-	}
+	// decorates a MeshShapeGenerator and takes ownership
+	FParametricGenerator(FMeshShapeGenerator* MeshShapeGenerator);
+
+	~FParametricGenerator();
+
+	virtual FMeshShapeGenerator& Generate() override;
+
+protected:
+	FMeshShapeGenerator* DecoratedMeshShapeGenerator;
 };
