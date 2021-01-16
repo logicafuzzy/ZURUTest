@@ -18,6 +18,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	UParametricMeshComponent* ResizableMeshComponent;
 
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 protected:
 
 private:
