@@ -18,3 +18,6 @@ void FProceduralGenerationModule::ShutdownModule()
 #undef LOCTEXT_NAMESPACE
 	
 IMPLEMENT_MODULE(FProceduralGenerationModule, ProceduralGeneration)
+
+/** Logging definitions */
+DEFINE_LOG_CATEGORY(ProceduralGenerationLog);
