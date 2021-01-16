@@ -14,7 +14,8 @@ UCLASS(Blueprintable, meta = (BlueprintSpawnableComponent))
 class PROCEDURALGENERATION_API UParametricMeshComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-	
+
+	friend UParametersUpdateStrategy;
 public:
 
 	UParametricMeshComponent();
@@ -23,7 +24,7 @@ public:
 	FMeshParams MeshParams;
 
 	UFUNCTION(Blueprintcallable)
-	void UpdateMesh();
+	void UpdateMesh(const FMeshParams& NewParams);
 
 	UFUNCTION()
 	void SetParametersUpdateStrategy(UParametersUpdateStrategy* NewUpdateStrategy);
@@ -31,12 +32,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* Material;
 
+	UFUNCTION(BlueprintNativeEvent)
+	void PostUpdateStrategy(const FMeshParams& UpdatedParams);
+
+	void SetMeshGenerator(TSharedPtr<FParametricGenerator> MeshGenerator);
+
 protected:
 	TSharedPtr<FParametricGenerator> MeshGenerator;
 
-	void UpdateStaticMeshFromDynamicMesh(UStaticMesh* InStaticMesh, const FDynamicMesh3& Mesh);
-
 private:
+
+	void UpdateStaticMeshFromDynamicMesh(UStaticMesh* InStaticMesh, const FDynamicMesh3& Mesh);
+	
 	// Initialized as UDefaultParametersUpdateStrategy 
 	UPROPERTY()
 	UParametersUpdateStrategy* UpdateStrategy;
