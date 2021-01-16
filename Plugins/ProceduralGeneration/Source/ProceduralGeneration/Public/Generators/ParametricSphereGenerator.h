@@ -11,6 +11,8 @@ class PROCEDURALGENERATION_API FParametricSphereGenerator : public FParametricGe
 public:
 	FParametricSphereGenerator();
 
+	const FName RadiusParamName = FName(TEXT("Radius"));
+
 	virtual FMeshShapeGenerator& Generate() override;
 private:
 

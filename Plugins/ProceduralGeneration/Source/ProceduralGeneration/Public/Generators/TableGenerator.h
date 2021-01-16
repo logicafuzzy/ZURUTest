@@ -2,14 +2,17 @@
 
 #include "CoreMinimal.h"
 
-#include "Generators/ParametricGenerator.h"
+#include "Generators/MeshShapeGenerator.h"
 
 //TODO: remove this
 #include "Generators/SphereGenerator.h"
 
-class PROCEDURALGENERATION_API FTableGenerator : public FParametricGenerator
+class PROCEDURALGENERATION_API FTableGenerator : public FMeshShapeGenerator
 {
 public:
 	FTableGenerator();
 
+	FMeshShapeGenerator* temp;
+
+	virtual FMeshShapeGenerator& Generate() override;
 };
