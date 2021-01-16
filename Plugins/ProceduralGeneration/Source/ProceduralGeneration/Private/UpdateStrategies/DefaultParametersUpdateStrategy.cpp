@@ -1,7 +1,7 @@
 #include "UpdateStrategies/DefaultParametersUpdateStrategy.h"
 
 
-FMeshParams UDefaultParametersUpdateStrategy::DoParametersUpdate(const FMeshParams& Input) const
+FMeshParams UDefaultParametersUpdateStrategy::DoParametersUpdate(const UMeshComponent* MeshComponent, const FMeshParams& NewParams) const
 {
-	return Input;
+	return NewParams;
 }

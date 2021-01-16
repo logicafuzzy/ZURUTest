@@ -13,6 +13,6 @@ class PROCEDURALGENERATION_API UDefaultParametersUpdateStrategy : public UParame
 	
 public:
 
-	//Inpute parameters are copied and returned as output without further elaborations
-	virtual FMeshParams DoParametersUpdate(const FMeshParams& Input) const override;
+	//Input parameters are copied and returned as output without further elaborations
+	virtual FMeshParams DoParametersUpdate(const UMeshComponent* MeshComponent, const FMeshParams& NewParams) const override;
 };
