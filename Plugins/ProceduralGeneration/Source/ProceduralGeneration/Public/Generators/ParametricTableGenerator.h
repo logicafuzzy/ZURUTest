@@ -12,5 +12,5 @@ class PROCEDURALGENERATION_API FParametricTableGenerator : public FParametricGen
 public:
 	FParametricTableGenerator();
 
-	virtual FMeshShapeGenerator& Generate() override;
+	//virtual FMeshShapeGenerator& Generate() override;
 };
