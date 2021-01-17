@@ -19,6 +19,8 @@ public:
 
 	UParametricTableComponent();
 
+
+
 	virtual void PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams) override;
 
 };

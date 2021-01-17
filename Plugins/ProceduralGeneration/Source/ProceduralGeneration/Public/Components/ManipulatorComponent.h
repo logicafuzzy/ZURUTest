@@ -16,19 +16,19 @@ class PROCEDURALGENERATION_API UManipulatorComponent : public USceneComponent
 public:
 	UManipulatorComponent();
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* OriginComponent;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CornerComponent;
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* BottomRightComponent;
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* TopLeftComponent;
 
-	void SetParametricMesh(UParametricMeshComponent* ParametricMeshComponent);
+	void SetParametricMesh(UParametricMeshComponent* NewParametricMeshComponent);
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = StrategyParamNames)
 	FName OriginParamName;

@@ -5,3 +5,8 @@ FParametricTableGenerator::FParametricTableGenerator()
 {
 
 }
+
+FMeshShapeGenerator& FParametricTableGenerator::Generate()
+{
+	return FParametricGenerator::Generate();
+}

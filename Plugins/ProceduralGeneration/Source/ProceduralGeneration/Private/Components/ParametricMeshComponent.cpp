@@ -38,6 +38,7 @@ void UParametricMeshComponent::UpdateMesh(const FMeshParams& NewParams)
 
 void UParametricMeshComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)
 {
+	this->MeshGenerator->MeshParams = UpdatedParams;
 	this->MeshParams = UpdatedParams;
 }
 
@@ -52,6 +53,8 @@ void UParametricMeshComponent::SetParametersUpdateStrategy(UParametersUpdateStra
 void UParametricMeshComponent::SetMeshGenerator(TSharedPtr<FParametricGenerator> NewMeshGenerator)
 {
 	this->MeshGenerator = NewMeshGenerator;
+
+	this->PostSetMeshGenerator();
 }
 
 void UParametricMeshComponent::UpdateStaticMeshFromDynamicMesh(

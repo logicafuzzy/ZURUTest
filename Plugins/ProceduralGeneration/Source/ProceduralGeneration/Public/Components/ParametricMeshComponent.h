@@ -41,6 +41,8 @@ public:
 protected:
 	TSharedPtr<FParametricGenerator> MeshGenerator;
 
+	virtual void PostSetMeshGenerator() {};
+
 private:
 
 	void UpdateStaticMeshFromDynamicMesh(UStaticMesh* InStaticMesh, const FDynamicMesh3& Mesh);

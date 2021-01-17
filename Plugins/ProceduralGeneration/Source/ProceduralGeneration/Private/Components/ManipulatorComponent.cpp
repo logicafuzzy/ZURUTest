@@ -2,13 +2,11 @@
 
 #include "Components/ParametricMeshComponent.h"
 
-//https://www.youtube.com/watch?v=XVND_jo-kNo&ab_channel=Lusiogenic
-
 UManipulatorComponent::UManipulatorComponent()
 	: Super()
-	, ParametricMeshComponent(nullptr)
 	, OriginParamName(TEXT("Origin"))
 	, CornerParamName(TEXT("Corner"))
+	, ParametricMeshComponent(nullptr)
 
 {
 	OriginComponent	= CreateDefaultSubobject<UStaticMeshComponent>(TEXT("OriginComponent"));
@@ -22,4 +20,9 @@ UManipulatorComponent::UManipulatorComponent()
 	
 	TopLeftComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopLeftComponent"));
 	TopLeftComponent->SetupAttachment(this);
+}
+
+void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParametricMeshComponent)
+{
+	this->ParametricMeshComponent = NewParametricMeshComponent;
 }

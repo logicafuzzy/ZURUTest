@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ParametricMeshComponent.h"
+#include "Components/ManipulatorComponent.h"
 
 #include "ResizableTable.generated.h"
 
@@ -19,7 +20,7 @@ public:
 
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-	UParametricMeshComponent* UManipulatorComponent;
+	UManipulatorComponent* ManipulatorComponent;
 
 	virtual void OnConstruction(const FTransform& Transform) override;
 
