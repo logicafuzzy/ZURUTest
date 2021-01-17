@@ -16,6 +16,8 @@ public:
 	UFUNCTION()
 	void OnClick();
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FName FloorTag;
 protected:
 
 private:
