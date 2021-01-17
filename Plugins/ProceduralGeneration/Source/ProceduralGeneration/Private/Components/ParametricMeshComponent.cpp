@@ -8,7 +8,6 @@
 #include "DynamicMeshToMeshDescription.h"
 
 UParametricMeshComponent::UParametricMeshComponent()
-	: Super()
 {
 	this->UpdateStrategy = CreateDefaultSubobject<UDefaultParametersUpdateStrategy>(TEXT("DefaultParametersUpdateStrategy"));
 	this->MeshGenerator = MakeShared<FParametricSphereGenerator>();
