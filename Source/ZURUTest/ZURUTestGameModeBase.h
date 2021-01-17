@@ -14,6 +14,8 @@ class ZURUTEST_API AZURUTestGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
-	AZURUTestGameModeBase();
+	AZURUTestGameModeBase(const FObjectInitializer& ObjectInitializer);
+
+	virtual void BeginPlay() override;
 
 };
