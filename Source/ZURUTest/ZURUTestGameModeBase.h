@@ -14,4 +14,6 @@ class ZURUTEST_API AZURUTestGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+	AZURUTestGameModeBase();
+
 };

@@ -3,3 +3,9 @@
 
 #include "ZURUTestGameModeBase.h"
 
+#include "MousePawn.h"
+
+AZURUTestGameModeBase::AZURUTestGameModeBase()
+{
+	DefaultPawnClass = AMousePawn::StaticClass();
+}
