@@ -5,7 +5,13 @@
 
 #include "MousePawn.h"
 
-AZURUTestGameModeBase::AZURUTestGameModeBase()
+AZURUTestGameModeBase::AZURUTestGameModeBase(const FObjectInitializer& ObjectInitializer)
 {
 	DefaultPawnClass = AMousePawn::StaticClass();
+}
+
+void AZURUTestGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
 }
