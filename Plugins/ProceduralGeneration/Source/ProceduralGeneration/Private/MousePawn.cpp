@@ -4,10 +4,11 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
-#include "ResizableActor.h"
+#include "ResizableTable.h"
 
 AMousePawn::AMousePawn()
 	: FloorTag(TEXT("Floor"))
+	, ActorClassToSpawn(AResizableTable::StaticClass())
 {
 	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 
@@ -41,7 +42,7 @@ void AMousePawn::OnClick()
 	{
 		if (HitComponent->ComponentHasTag(FloorTag))
 		{
-			this->GetWorld()->SpawnActor<AResizableActor>(Hit.Location, HitComponent->GetComponentRotation());
+			this->GetWorld()->SpawnActor<AActor>(ActorClassToSpawn, Hit.Location, HitComponent->GetComponentRotation());
 		}
 		UE_LOG(ProceduralGenerationLog, Display, TEXT("Hit %s"), *HitComponent->GetFName().ToString());
 	}

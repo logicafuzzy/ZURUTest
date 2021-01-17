@@ -3,17 +3,16 @@
 #include "CoreMinimal.h"
 #include "Components/ParametricMeshComponent.h"
 
-
-#include "ResizableActor.generated.h"
+#include "ResizableTable.generated.h"
 
 UCLASS(BlueprintType, Blueprintable, meta = (BlueprintSpawnableComponent))
-class PROCEDURALGENERATION_API AResizableActor : public AActor
+class PROCEDURALGENERATION_API AResizableTable : public AActor
 {
 	GENERATED_BODY()
 
 public:
 
-	AResizableActor();
+	AResizableTable();
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	UParametricMeshComponent* ResizableMeshComponent;

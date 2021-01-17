@@ -34,6 +34,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void PostUpdateStrategy(const FMeshParams& UpdatedParams);
+	virtual void PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams);
 
 	void SetMeshGenerator(TSharedPtr<FParametricGenerator> MeshGenerator);
 

@@ -18,6 +18,10 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FName FloorTag;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TSubclassOf<AActor> ActorClassToSpawn;
+
 protected:
 
 private:
