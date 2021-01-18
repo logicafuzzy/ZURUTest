@@ -17,9 +17,9 @@ UParametricTableComponent::UParametricTableComponent()
 	auto TableMaterial = Cast<UMaterialInterface>(TableMaterialPath.TryLoad());
 	this->Material = TableMaterial;
 
-	MeshParams.VectorParams.Add(Strategy->OriginParamName, FVector::ZeroVector);
-	MeshParams.VectorParams.Add(Strategy->CornerParamName, FVector::OneVector*100.0f);
-	MeshParams.ScalarParams.Add(Generator->RadiusParamName, 10.0f);
+	MeshParams.VectorParams.Add(Strategy->OriginParamName, { 0, 0, 100 });
+	MeshParams.VectorParams.Add(Strategy->CornerParamName, { 100, 100, 100 });
+	MeshParams.ScalarParams.Add(Generator->RadiusParamName, 50.0f);
 }
 
 void UParametricTableComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)
