@@ -20,22 +20,19 @@ UManipulatorComponent::UManipulatorComponent()
 	OriginComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("OriginComponent"));
 	OriginComponent->SetupAttachment(this);
 	Cast<UParametricMeshComponent>(OriginComponent)->UpdateMesh(SphereParams);
-	//OriginComponent->SetStaticMesh(SphereHandle);
 
 	CornerComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("CornerComponent"));
 	CornerComponent->SetupAttachment(this);
 	Cast<UParametricMeshComponent>(CornerComponent)->UpdateMesh(SphereParams);
-	//CornerComponent->SetStaticMesh(SphereHandle);
 
 	BottomRightComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("BottomRightComponent"));
 	BottomRightComponent->SetupAttachment(this);
 	Cast<UParametricMeshComponent>(BottomRightComponent)->UpdateMesh(SphereParams);
-	//BottomRightComponent->SetStaticMesh(SphereHandle);
 	
 	TopLeftComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("TopLeftComponent"));
 	TopLeftComponent->SetupAttachment(this);
 	Cast<UParametricMeshComponent>(TopLeftComponent)->UpdateMesh(SphereParams);
-	//TopLeftComponent->SetStaticMesh(SphereHandle);
+
 }
 
 void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParametricMeshComponent)
@@ -43,6 +40,9 @@ void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParam
 	this->ParametricMeshComponent = NewParametricMeshComponent;
 
 	InitManipulators(ParametricMeshComponent->MeshParams);
+
+	UpdateParametricMesh(OriginComponent);
+	UpdateParametricMesh(CornerComponent);
 }
 
 void UManipulatorComponent::UpdateParametricMesh(UStaticMeshComponent* DrivingComponent)
@@ -72,7 +72,7 @@ void UManipulatorComponent::InitManipulators(const FMeshParams& MeshParams)
 		OriginComponent->SetRelativeLocation(*MeshParams.VectorParams.Find(OriginParamName));
 	
 	if (MeshParams.VectorParams.Contains(CornerParamName))
-	CornerComponent->SetRelativeLocation(*MeshParams.VectorParams.Find(CornerParamName));
+		CornerComponent->SetRelativeLocation(*MeshParams.VectorParams.Find(CornerParamName));
 }
 
 void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComponent)
@@ -80,24 +80,24 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	//update only adjacent corners. Can be simplyfied to make it more elegant and less else-if?
 	if (DrivingComponent == OriginComponent)
 	{
-		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 0 });
-		MakeEqual(DrivingComponent, TopLeftComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, TopLeftComponent,	  { 0, 1, 0 });
 	}
 	else if (DrivingComponent == BottomRightComponent)
 	{
-		MakeEqual(DrivingComponent, OriginComponent, { 0, 1, 0 });
 		MakeEqual(DrivingComponent, CornerComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, OriginComponent, { 0, 1, 0 });
 	}
 	else if (DrivingComponent == CornerComponent)
 	{
-		MakeEqual(DrivingComponent, TopLeftComponent, { 0, 1, 0 });
-		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, TopLeftComponent,     { 1, 0, 0 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 0 });
 
 	}
 	else if (DrivingComponent == TopLeftComponent)
 	{
-		MakeEqual(DrivingComponent, CornerComponent, { 0, 1, 0 });
-		MakeEqual(DrivingComponent, OriginComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, CornerComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, OriginComponent, { 0, 1, 0 });
 	}
 }
 
