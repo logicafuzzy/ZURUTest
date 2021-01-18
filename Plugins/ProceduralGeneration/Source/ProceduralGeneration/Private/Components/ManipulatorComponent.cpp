@@ -10,21 +10,32 @@ UManipulatorComponent::UManipulatorComponent()
 	, ParametricMeshComponent(nullptr)
 
 {
-	//FStringAssetReference TableMaterialPath(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Oak.M_Wood_Oak'"));
-	//auto TableMaterial = Cast<UMaterialInterface>(TableMaterialPath.TryLoad());
+	//FStringAssetReference BasicSpherePath(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+	//auto SphereHandle = Cast<UStaticMesh>(BasicSpherePath.TryLoad());
 
-	OriginComponent	= CreateDefaultSubobject<UStaticMeshComponent>(TEXT("OriginComponent"));
+	FMeshParams SphereParams;
+	SphereParams.ScalarParams.Add(FName(TEXT("Radius")), 5.0f);
+
+	//TODO make it UParametricSphereComponent
+	OriginComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("OriginComponent"));
 	OriginComponent->SetupAttachment(this);
-	//OriginComponent->SetStaticMesh()
+	Cast<UParametricMeshComponent>(OriginComponent)->UpdateMesh(SphereParams);
+	//OriginComponent->SetStaticMesh(SphereHandle);
 
-	CornerComponent	= CreateDefaultSubobject<UStaticMeshComponent>(TEXT("CornerComponent"));
+	CornerComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("CornerComponent"));
 	CornerComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(CornerComponent)->UpdateMesh(SphereParams);
+	//CornerComponent->SetStaticMesh(SphereHandle);
 
-	BottomRightComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BottomRightComponent"));
+	BottomRightComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("BottomRightComponent"));
 	BottomRightComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(BottomRightComponent)->UpdateMesh(SphereParams);
+	//BottomRightComponent->SetStaticMesh(SphereHandle);
 	
-	TopLeftComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopLeftComponent"));
+	TopLeftComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("TopLeftComponent"));
 	TopLeftComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(TopLeftComponent)->UpdateMesh(SphereParams);
+	//TopLeftComponent->SetStaticMesh(SphereHandle);
 }
 
 void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParametricMeshComponent)
