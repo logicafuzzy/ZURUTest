@@ -26,12 +26,9 @@ bool UParametersUpdateStrategy::GetParam(const FMeshParams& Params, FName Name, 
 
 bool UParametersUpdateStrategy::GetParam(const FMeshParams& Params, FName Name, FVector& Value) const
 {
-	//TODO make type-specific this line only?
-	auto Result = Params.VectorParams.Find(Name);
-
-	if (Result != nullptr)
+	if (Params.VectorParams.Contains(Name))
 	{
-		Value = *Result;
+		Value = *Params.VectorParams.Find(Name);
 		return true;
 	}
 	else
