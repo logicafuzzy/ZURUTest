@@ -36,6 +36,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = StrategyParamNames)
 	FName CornerParamName;
 
+	void UpdateParametricMesh(UStaticMeshComponent* DrivingComponent);
+
+	
+
 private:
 	UParametricMeshComponent* ParametricMeshComponent;
+
+	void InitManipulators(const FMeshParams& MeshParams);
+
+	void UpdateManipulators(UStaticMeshComponent* DrivingComponent);
+	
+	void MakeEqual(USceneComponent* Source, USceneComponent* Dest, FVector Mask) const;
+
+	FMeshParams MakeParams() const;
 };
