@@ -80,8 +80,8 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	//update only adjacent corners. Can be simplyfied to make it more elegant and less else-if?
 	if (DrivingComponent == OriginComponent)
 	{
-		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 0 });
-		MakeEqual(DrivingComponent, TopLeftComponent,	  { 0, 1, 0 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 1 });
+		MakeEqual(DrivingComponent, TopLeftComponent,	  { 0, 1, 1 });
 	}
 	else if (DrivingComponent == BottomRightComponent)
 	{
@@ -90,8 +90,8 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	}
 	else if (DrivingComponent == CornerComponent)
 	{
-		MakeEqual(DrivingComponent, TopLeftComponent,     { 1, 0, 0 });
-		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 0 });
+		MakeEqual(DrivingComponent, TopLeftComponent,     { 1, 0, 1 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 1 });
 
 	}
 	else if (DrivingComponent == TopLeftComponent)

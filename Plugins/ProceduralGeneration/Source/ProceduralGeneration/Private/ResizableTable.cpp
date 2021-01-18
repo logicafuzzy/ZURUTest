@@ -14,6 +14,8 @@ AResizableTable::AResizableTable()
 
 	auto AttachmentTransformRule = FAttachmentTransformRules(EAttachmentRule::KeepRelative, false);
 	ManipulatorComponent->AttachToComponent(ResizableMeshComponent, AttachmentTransformRule);
+	ManipulatorComponent->SetParametricMesh(ResizableMeshComponent);
+
 
 }
 

@@ -10,7 +10,7 @@ FParametricSphereGenerator::FParametricSphereGenerator()
 
 FMeshShapeGenerator& FParametricSphereGenerator::Generate()
 {
-	SphereGenerator->Radius = this->MeshParams.ScalarParams.Contains(RadiusParamName) ? *this->MeshParams.ScalarParams.Find(RadiusParamName) : 1.0f;
+	SphereGenerator->Radius = this->MeshParams.ScalarParams.Contains(RadiusParamName) ? *this->MeshParams.ScalarParams.Find(RadiusParamName) : 10.0f;
 
 	return this->DecoratedMeshShapeGenerator->Generate();
 }
