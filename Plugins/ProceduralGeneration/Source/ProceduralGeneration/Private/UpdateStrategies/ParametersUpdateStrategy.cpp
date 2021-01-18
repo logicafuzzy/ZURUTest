@@ -8,12 +8,9 @@ FMeshParams UParametersUpdateStrategy::DoParametersUpdate(const UMeshComponent* 
 
 bool UParametersUpdateStrategy::GetParam(const FMeshParams& Params, FName Name, float& Value) const
 {
-	//TODO make type-specific this line only?
-	auto Result = Params.ScalarParams.Find(Name);
-
-	if (Result != nullptr)
+	if (Params.ScalarParams.Contains(Name))
 	{
-		Value = *Result;
+		Value = *Params.ScalarParams.Find(Name);
 		return true;
 	}
 	else
