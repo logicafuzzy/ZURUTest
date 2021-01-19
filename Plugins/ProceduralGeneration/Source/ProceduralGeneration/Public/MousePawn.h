@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/PrimitiveComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 #include "MousePawn.generated.h"
 
@@ -14,12 +16,6 @@ public:
 
 	AMousePawn();
 
-	UFUNCTION()
-	void OnClick();
-	
-	UFUNCTION()
-	void OnRelease();
-
 	virtual void Tick(float deltatime) override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -27,6 +23,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AActor> ActorClassToSpawn;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraComponent;
 
 protected:
 
@@ -37,4 +39,23 @@ private:
 	bool bGrabbing;
 	float HitDistance;
 
+	bool bCameraDragging;
+
+	UFUNCTION()
+	void OnClick();
+
+	UFUNCTION()
+	void OnRelease();
+
+	UFUNCTION()
+	void StartDrag();
+
+	UFUNCTION()
+	void StopDrag();
+
+	UFUNCTION()
+	void Yaw(float value);
+
+	UFUNCTION()
+	void Pitch(float value);
 };

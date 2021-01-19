@@ -14,25 +14,45 @@ AMousePawn::AMousePawn()
 	, HitComponent(nullptr)
 	, bGrabbing(false)
 	, HitDistance(0.f)
+	, bCameraDragging(false)
 {
+
+
+	SetActorTickEnabled(false);
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.SetTickFunctionEnable(true);
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationYaw = true;
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
 	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 
 	if (PlayerController != nullptr)
 	{
 		PlayerController->bEnableClickEvents = true;
 		PlayerController->bShowMouseCursor = true;
-		PlayerController->InputComponent->BindAction("MouseLeftClicked", IE_Pressed, this, &AMousePawn::OnClick);
-		PlayerController->InputComponent->BindAction("MouseLeftClicked", IE_Released, this, &AMousePawn::OnRelease);
+		PlayerController->InputComponent->BindAction("MouseLeft", IE_Pressed, this, &AMousePawn::OnClick);
+		PlayerController->InputComponent->BindAction("MouseLeft", IE_Released, this, &AMousePawn::OnRelease);
+		PlayerController->InputComponent->BindAction("MouseRight", IE_Pressed, this, &AMousePawn::StartDrag);
+		PlayerController->InputComponent->BindAction("MouseRight", IE_Released, this, &AMousePawn::StopDrag);
+		PlayerController->InputComponent->BindAxis("Yaw", this, &AMousePawn::Yaw);
+		PlayerController->InputComponent->BindAxis("Pitch", this, &AMousePawn::Pitch);
 	}
 	else
 	{
 		UE_LOG(ProceduralGenerationLog, Error, TEXT("PlayerController is nullptr"));
 	}
 
-	SetActorTickEnabled(false);
-	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.SetTickFunctionEnable(true);
-	PrimaryActorTick.bStartWithTickEnabled = false;
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	SpringArmComponent->SetupAttachment(this->RootComponent);
+	SpringArmComponent->bEnableCameraLag = true;
+	SpringArmComponent->CameraLagSpeed = 5.0f;
+	SpringArmComponent->CameraRotationLagSpeed = 5.0f;
+
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	CameraComponent->SetupAttachment(SpringArmComponent);
 }
 
 void AMousePawn::OnClick()
@@ -90,6 +110,10 @@ void AMousePawn::Tick(float deltatime)
 
 		ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
 	}
+	else if (bCameraDragging)
+	{
+
+	}
 }
 
 void AMousePawn::OnRelease()
@@ -97,4 +121,26 @@ void AMousePawn::OnRelease()
 	bGrabbing = false;
 	HitComponent = nullptr;
 	HitDistance = 0.f;
+}
+
+void AMousePawn::StartDrag()
+{
+	bCameraDragging = true;
+}
+
+void AMousePawn::StopDrag()
+{
+	bCameraDragging = false;
+}
+
+void AMousePawn::Yaw(float value)
+{
+	if (bCameraDragging)
+		this->AddControllerYawInput(value);
+}
+
+void AMousePawn::Pitch(float value)
+{
+	if (bCameraDragging)
+		this->AddControllerPitchInput(value);
 }
