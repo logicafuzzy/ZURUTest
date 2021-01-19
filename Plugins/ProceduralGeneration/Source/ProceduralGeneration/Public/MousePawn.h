@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/PrimitiveComponent.h"
 
 #include "MousePawn.generated.h"
 
@@ -15,6 +16,11 @@ public:
 
 	UFUNCTION()
 	void OnClick();
+	
+	UFUNCTION()
+	void OnRelease();
+
+	virtual void Tick(float deltatime) override;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	FName FloorTag;
@@ -25,5 +31,10 @@ public:
 protected:
 
 private:
+	UPROPERTY()
+	UPrimitiveComponent* HitComponent;
+
+	bool bGrabbing;
+	float HitDistance;
 
 };
