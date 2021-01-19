@@ -83,11 +83,12 @@ void AMousePawn::Tick(float deltatime)
 		FVector Location, Direction;
 		PlayerController->DeprojectMousePositionToWorld(Location, Direction);
 
-		//Location.Z = DrivingComponent->GetComponentLocation().Z;
+		auto NewLocation = Location + HitDistance * Direction;
+		NewLocation.Z = DrivingComponent->GetComponentLocation().Z;
 
-		DrivingComponent->SetWorldLocation(Location + HitDistance*Direction);
+		DrivingComponent->SetWorldLocation(NewLocation);
 
-		//ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
+		ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
 	}
 }
 
