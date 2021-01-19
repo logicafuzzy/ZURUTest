@@ -48,11 +48,13 @@ AMousePawn::AMousePawn()
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArmComponent->SetupAttachment(this->RootComponent);
 	SpringArmComponent->bEnableCameraLag = true;
+	SpringArmComponent->bEnableCameraRotationLag = true;
+
 	SpringArmComponent->CameraLagSpeed = 5.0f;
 	SpringArmComponent->CameraRotationLagSpeed = 5.0f;
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(SpringArmComponent);
+	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
 }
 
 void AMousePawn::OnClick()
