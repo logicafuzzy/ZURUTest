@@ -85,8 +85,8 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	}
 	else if (DrivingComponent == BottomRightComponent)
 	{
-		MakeEqual(DrivingComponent, CornerComponent, { 1, 0, 0 });
-		MakeEqual(DrivingComponent, OriginComponent, { 0, 1, 0 });
+		MakeEqual(DrivingComponent, OriginComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, CornerComponent, { 0, 1, 0 });
 	}
 	else if (DrivingComponent == CornerComponent)
 	{
