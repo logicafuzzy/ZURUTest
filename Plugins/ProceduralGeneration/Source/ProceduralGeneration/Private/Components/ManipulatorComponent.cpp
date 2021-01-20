@@ -56,11 +56,11 @@ void UManipulatorComponent::UpdateParametricMesh(UStaticMeshComponent* DrivingCo
 
 		OriginComponent->SetRelativeTransform(FTransform::Identity);
 		this->ParametricMeshComponent->SetWorldLocation({ OriginLocation.X, OriginLocation.Y, this->ParametricMeshComponent->GetComponentTransform().GetLocation().Z });
-
 		
-		//CornerComponent->AddRelativeLocation(OriginLocation);
-		//BottomRightComponent->AddRelativeLocation(OriginLocation);
-		//TopLeftComponent->AddRelativeLocation(OriginLocation);
+		//compensating origin repositioning
+		CornerComponent->AddRelativeLocation(-OriginRelativeLocation);
+		BottomRightComponent->AddRelativeLocation(-OriginRelativeLocation);
+		TopLeftComponent->AddRelativeLocation(-OriginRelativeLocation);
 
 		this->ParametricMeshComponent->UpdateMesh(MakeParams());
 	}
