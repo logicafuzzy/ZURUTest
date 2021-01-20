@@ -12,22 +12,25 @@ class PROCEDURALGENERATION_API UAABBResizeUpdateStrategy : public UParametersUpd
 	GENERATED_BODY()
 	
 public:
+
+	UAABBResizeUpdateStrategy();
+
 	//Input parameter
-	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Parameters | Input")
-	FName CornerParamName = FName(TEXT("Corner"));
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Parameters | Input")
+	FName CornerParamName; 
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Parameters | Input")
-	FName OriginParamName = FName(TEXT("Origin"));
+	FName OriginParamName;
 
 	//Output parameter
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Parameters | Output")
-	FName WidthParamName = FName(TEXT("Width"));
+	FName WidthParamName;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Parameters | Output")
-	FName LengthParamName = FName(TEXT("Length"));
+	FName LengthParamName;
 
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Parameters | Output")
-	FName HeightParamName = FName(TEXT("Height"));
+	FName HeightParamName; 
 
 	virtual FMeshParams DoParametersUpdate(const UMeshComponent* MeshComponent, const FMeshParams& NewParams) const override;
 };

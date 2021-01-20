@@ -1,6 +1,14 @@
 #include "UpdateStrategies/AABBResizeUpdateStrategy.h"
 #include "ProceduralGenerationModule.h"
 
+UAABBResizeUpdateStrategy::UAABBResizeUpdateStrategy()
+	: CornerParamName(TEXT("Corner"))
+	, OriginParamName(TEXT("Origin"))
+	, WidthParamName(TEXT("Width"))
+	, LengthParamName(TEXT("Length"))
+	, HeightParamName(TEXT("Height"))
+{}
+
 FMeshParams UAABBResizeUpdateStrategy::DoParametersUpdate(const UMeshComponent* MeshComponent, const FMeshParams& NewParams) const
 {
 	FMeshParams Output(NewParams);
