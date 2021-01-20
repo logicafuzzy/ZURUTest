@@ -1,4 +1,5 @@
 #include "UpdateStrategies/AABBResizeUpdateStrategy.h"
+#include "ProceduralGenerationModule.h"
 
 FMeshParams UAABBResizeUpdateStrategy::DoParametersUpdate(const UMeshComponent* MeshComponent, const FMeshParams& NewParams) const
 {
@@ -12,8 +13,8 @@ FMeshParams UAABBResizeUpdateStrategy::DoParametersUpdate(const UMeshComponent* 
 		FVector Size = Corner - Origin;
 		Output.ScalarParams.Add(WidthParamName,  Size.X);
 		Output.ScalarParams.Add(LengthParamName, Size.Y);
-		Output.ScalarParams.Add(HeightParamName, Size.Z);
 	}
 
+	UE_LOG(ProceduralGenerationLog, Display, TEXT("UAABBResizeUpdateStrategy::DoParametersUpdate()"));
 	return Output;
 }
