@@ -1,13 +1,13 @@
 #include "Components/ParametricTableComponent.h"
 
-#include "Generators/ParametricSphereGenerator.h"
+#include "Generators/ParametricTableGenerator.h"
 #include "UpdateStrategies/AABBResizeUpdateStrategy.h"
 
 
 UParametricTableComponent::UParametricTableComponent()
 {
 	auto Strategy = CreateDefaultSubobject<UAABBResizeUpdateStrategy>(TEXT("AABBResizeUpdateStrategy"));
-	auto Generator = MakeShared<FParametricSphereGenerator>();
+	auto Generator = MakeShared<FParametricTableGenerator>();
 
 	this->SetParametersUpdateStrategy(Strategy);
 	this->MeshGenerator = Generator;
@@ -19,7 +19,10 @@ UParametricTableComponent::UParametricTableComponent()
 
 	MeshParams.VectorParams.Add(Strategy->OriginParamName, { 0, 0, 100 });
 	MeshParams.VectorParams.Add(Strategy->CornerParamName, { 100, 100, 100 });
-	MeshParams.ScalarParams.Add(Generator->RadiusParamName, 50.0f);
+	MeshParams.ScalarParams.Add(Generator->WidthParamName, 100);
+	MeshParams.ScalarParams.Add(Generator->LengthParamName, 100);
+	MeshParams.ScalarParams.Add(Generator->HeightParamName, 85);
+
 }
 
 void UParametricTableComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)
