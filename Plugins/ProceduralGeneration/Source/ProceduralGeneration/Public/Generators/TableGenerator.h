@@ -4,15 +4,19 @@
 
 #include "Generators/MeshShapeGenerator.h"
 
-//TODO: remove this
-#include "Generators/SphereGenerator.h"
 
 class PROCEDURALGENERATION_API FTableGenerator : public FMeshShapeGenerator
 {
 public:
-	FTableGenerator();
+	float width;
+	float length;
+	float height;
+	float topThickness;
+	float legThickness;
 
-	FMeshShapeGenerator* temp;
+	FTableGenerator();
 
 	virtual FMeshShapeGenerator& Generate() override;
 };
+
+
