@@ -69,7 +69,7 @@ void AMousePawn::OnClick()
 	FHitResult Hit;
 	const bool bUseComplexCollision = true;
 	
-	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::Persistent, Hit, true);
+	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::Persistent, Hit, false);
 
 	HitComponent = Hit.GetComponent();
 	HitDistance = Hit.Distance;
