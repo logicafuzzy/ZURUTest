@@ -39,25 +39,28 @@ void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParam
 
 	InitManipulators(ParametricMeshComponent->MeshParams);
 
-	UpdateParametricMesh(OriginComponent);
+	UpdateManipulators(OriginComponent);
 	UpdateParametricMesh(CornerComponent);
 }
 
+#pragma optimize ("",off)
 void UManipulatorComponent::UpdateParametricMesh(UStaticMeshComponent* DrivingComponent)
 {
 
-	UE_LOG(ProceduralGenerationLog, Display, TEXT("Calling UpdateManipulators(DrivingComponent)"));
 	UpdateManipulators(DrivingComponent);
 
 	if (this->ParametricMeshComponent)
 	{
-		UE_LOG(ProceduralGenerationLog, Display, TEXT("Pushing manipulator transform onto ParameterComponent"));
-
 		auto OriginLocation = OriginComponent->GetComponentTransform().GetLocation();
-
-		this->ParametricMeshComponent->SetWorldLocation({ OriginLocation.X, OriginLocation.Y, this->ParametricMeshComponent->GetComponentTransform().GetLocation().Z });
+		auto OriginRelativeLocation = OriginComponent->GetRelativeTransform().GetLocation();
 
 		OriginComponent->SetRelativeTransform(FTransform::Identity);
+		this->ParametricMeshComponent->SetWorldLocation({ OriginLocation.X, OriginLocation.Y, this->ParametricMeshComponent->GetComponentTransform().GetLocation().Z });
+
+		
+		//CornerComponent->AddRelativeLocation(OriginLocation);
+		//BottomRightComponent->AddRelativeLocation(OriginLocation);
+		//TopLeftComponent->AddRelativeLocation(OriginLocation);
 
 		this->ParametricMeshComponent->UpdateMesh(MakeParams());
 	}
