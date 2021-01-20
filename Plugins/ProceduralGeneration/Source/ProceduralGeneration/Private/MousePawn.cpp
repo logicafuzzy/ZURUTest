@@ -49,6 +49,7 @@ AMousePawn::AMousePawn()
 	SpringArmComponent->SetupAttachment(this->RootComponent);
 	SpringArmComponent->bEnableCameraLag = true;
 	SpringArmComponent->bEnableCameraRotationLag = true;
+	RootComponent = SpringArmComponent;
 
 	SpringArmComponent->CameraLagSpeed = 5.0f;
 	SpringArmComponent->CameraRotationLagSpeed = 5.0f;
