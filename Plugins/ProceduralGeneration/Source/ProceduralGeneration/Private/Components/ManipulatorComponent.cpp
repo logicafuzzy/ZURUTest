@@ -7,12 +7,10 @@ UManipulatorComponent::UManipulatorComponent()
 	: Super()
 	, OriginParamName(TEXT("Origin"))
 	, CornerParamName(TEXT("Corner"))
+	, HeightParamName(TEXT("Height"))
 	, ParametricMeshComponent(nullptr)
 
 {
-	//FStringAssetReference BasicSpherePath(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
-	//auto SphereHandle = Cast<UStaticMesh>(BasicSpherePath.TryLoad());
-
 	FMeshParams SphereParams;
 	SphereParams.ScalarParams.Add(FName(TEXT("Radius")), 5.0f);
 
@@ -47,22 +45,26 @@ void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParam
 
 void UManipulatorComponent::UpdateParametricMesh(UStaticMeshComponent* DrivingComponent)
 {
-	//ensure localtransform is identity relative to parent
-	auto LocalTransform = this->GetRelativeTransform();
-	if (!LocalTransform.Equals(FTransform::Identity))
-	{
-		UE_LOG(ProceduralGenerationLog, Warning, TEXT("ManipulatorComponent local transform not Identity"));
-	}
-	
+
+	UE_LOG(ProceduralGenerationLog, Display, TEXT("Calling UpdateManipulators(DrivingComponent)"));
 	UpdateManipulators(DrivingComponent);
 
 	if (this->ParametricMeshComponent)
 	{
+		UE_LOG(ProceduralGenerationLog, Display, TEXT("Pushing manipulator transform onto ParameterComponent"));
+
+		auto OriginLocation = OriginComponent->GetComponentTransform().GetLocation();
+
+		this->ParametricMeshComponent->SetWorldLocation({ OriginLocation.X, OriginLocation.Y, this->ParametricMeshComponent->GetComponentTransform().GetLocation().Z });
+
+		OriginComponent->SetRelativeTransform(FTransform::Identity);
+
 		this->ParametricMeshComponent->UpdateMesh(MakeParams());
 	}
 	else
 	{
 		UE_LOG(ProceduralGenerationLog, Error, TEXT("ParametricMeshComponent not set"));
+		return;
 	}
 }
 
@@ -73,6 +75,10 @@ void UManipulatorComponent::InitManipulators(const FMeshParams& MeshParams)
 	
 	if (MeshParams.VectorParams.Contains(CornerParamName))
 		CornerComponent->SetRelativeLocation(*MeshParams.VectorParams.Find(CornerParamName));
+
+	if (MeshParams.ScalarParams.Contains(HeightParamName))
+		this->AddRelativeLocation({ 0, 0, *MeshParams.ScalarParams.Find(HeightParamName) });
+
 }
 
 void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComponent)
@@ -80,8 +86,8 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	//update only adjacent corners. Can be simplyfied to make it more elegant and less else-if?
 	if (DrivingComponent == OriginComponent)
 	{
-		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 1 });
-		MakeEqual(DrivingComponent, TopLeftComponent,	  { 0, 1, 1 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 1, 0, 0 });
+		MakeEqual(DrivingComponent, TopLeftComponent,	  { 0, 1, 0 });
 	}
 	else if (DrivingComponent == BottomRightComponent)
 	{
@@ -90,8 +96,8 @@ void UManipulatorComponent::UpdateManipulators(UStaticMeshComponent* DrivingComp
 	}
 	else if (DrivingComponent == CornerComponent)
 	{
-		MakeEqual(DrivingComponent, TopLeftComponent,     { 1, 0, 1 });
-		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 1 });
+		MakeEqual(DrivingComponent, TopLeftComponent,     { 1, 0, 0 });
+		MakeEqual(DrivingComponent, BottomRightComponent, { 0, 1, 0 });
 
 	}
 	else if (DrivingComponent == TopLeftComponent)

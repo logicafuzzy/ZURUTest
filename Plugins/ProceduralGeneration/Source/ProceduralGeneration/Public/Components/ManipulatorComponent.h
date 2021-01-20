@@ -36,6 +36,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = StrategyParamNames)
 	FName CornerParamName;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = StrategyParamNames)
+	FName HeightParamName;
+
 	void UpdateParametricMesh(UStaticMeshComponent* DrivingComponent);
 
 	
