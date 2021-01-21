@@ -16,6 +16,7 @@ AMousePawn::AMousePawn()
 	, bGrabbing(false)
 	, HitDistance(0.f)
 	, bCameraDragging(false)
+	, bCameraPanning(false)
 {
 	SetActorTickEnabled(false);
 	PrimaryActorTick.bCanEverTick = true;
@@ -36,8 +37,11 @@ AMousePawn::AMousePawn()
 		PlayerController->InputComponent->BindAction("MouseLeft", IE_Released, this, &AMousePawn::OnRelease);
 		PlayerController->InputComponent->BindAction("MouseRight", IE_Pressed, this, &AMousePawn::StartDrag);
 		PlayerController->InputComponent->BindAction("MouseRight", IE_Released, this, &AMousePawn::StopDrag);
+		PlayerController->InputComponent->BindAction("MouseCenter", IE_Pressed, this, &AMousePawn::StartPan);
+		PlayerController->InputComponent->BindAction("MouseCenter", IE_Released, this, &AMousePawn::StopPan);
 		PlayerController->InputComponent->BindAxis("Yaw", this, &AMousePawn::Yaw);
 		PlayerController->InputComponent->BindAxis("Pitch", this, &AMousePawn::Pitch);
+		PlayerController->InputComponent->BindAxis("Zoom", this, &AMousePawn::Zoom);
 	}
 	else
 	{
@@ -115,7 +119,7 @@ void AMousePawn::Tick(float deltatime)
 			check(DrivingComponent);
 
 			// NewLocation = Location + K * Direction
-			// Find K such that Location.Z + K * Direction.Z = HitLocation.Z
+			// Find K such that Location.Z + K * Direction.Z = InitialHitLocation.Z
 			auto K = (HitLocation.Z - Location.Z) / Direction.Z;
 
 			DrivingComponent->SetWorldLocation(Location + K * Direction - DragDelta);
@@ -158,10 +162,30 @@ void AMousePawn::Yaw(float value)
 {
 	if (bCameraDragging)
 		this->AddControllerYawInput(value);
+	else if (bCameraPanning)
+		this->AddActorLocalOffset({ 0, -10.0f*value, 0 });
 }
 
 void AMousePawn::Pitch(float value)
 {
 	if (bCameraDragging)
 		this->AddControllerPitchInput(value);
+	else if (bCameraPanning)
+		this->AddActorLocalOffset({ 0, 0, 10.0f*value });
+}
+
+void AMousePawn::StartPan()
+{
+	bCameraPanning = true;
+}
+
+void AMousePawn::StopPan()
+{
+	bCameraPanning = false;
+}
+
+void AMousePawn::Zoom(float value)
+{
+	//this->CameraComponent->FieldOfView += value;
+	this->AddActorLocalOffset({ 10.0f*value, 0, 0 });
 }

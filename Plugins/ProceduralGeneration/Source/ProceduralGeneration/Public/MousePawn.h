@@ -45,6 +45,7 @@ private:
 	float HitDistance;
 
 	bool bCameraDragging;
+	bool bCameraPanning;
 	
 	//initial delta when dragging starts
 	FVector DragDelta;
@@ -60,11 +61,20 @@ private:
 	void StartDrag();
 
 	UFUNCTION()
-	void StopDrag();
+	void StopDrag();	
+	
+	UFUNCTION()
+	void StartPan();
+
+	UFUNCTION()
+	void StopPan();
 
 	UFUNCTION()
 	void Yaw(float value);
 
 	UFUNCTION()
 	void Pitch(float value);
+
+	UFUNCTION()
+	void Zoom(float value);
 };
