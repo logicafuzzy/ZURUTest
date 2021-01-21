@@ -3,9 +3,7 @@
 #include "Generators/ParametricSphereGenerator.h"
 #include "UpdateStrategies/DefaultParametersUpdateStrategy.h"
 
-#include "MeshDescription.h"
-#include "StaticMeshAttributes.h"
-#include "DynamicMeshToMeshDescription.h"
+#include "Generators/MeshGeneratorUtils.h"
 
 UParametricMeshComponent::UParametricMeshComponent()
 {
@@ -20,8 +18,6 @@ void UParametricMeshComponent::UpdateMesh(const FMeshParams& NewParams)
 
 	this->PostUpdateStrategy(this->UpdateStrategy->DoParametersUpdate(this, NewParams));
 
-	DynamicMesh.Copy(&MeshGenerator->Generate());
-
 	if (this->GetStaticMesh() == nullptr)
 	{
 		auto NewStaticMesh = NewObject<UStaticMesh>();
@@ -29,13 +25,13 @@ void UParametricMeshComponent::UpdateMesh(const FMeshParams& NewParams)
 		NewStaticMesh->StaticMaterials.Add(FStaticMaterial());
 	}
 
-	this->UpdateStaticMeshFromDynamicMesh(GetStaticMesh(), DynamicMesh);
+	MeshGeneratorUtils::UpdateStaticMesh(MeshGenerator.Get(), GetStaticMesh(), DynamicMesh);
 
 	//TODO: support multiple material slots
 	UMaterialInterface* UseMaterial = (this->Material != nullptr) ? this->Material : UMaterial::GetDefaultMaterial(MD_Surface);
 	this->SetMaterial(0, UseMaterial);
 
-	OnUpdateMesh.Broadcast(MeshParams);
+	EventUpdateMesh.Broadcast(MeshParams);
 }
 
 void UParametricMeshComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)
@@ -57,26 +53,4 @@ void UParametricMeshComponent::SetMeshGenerator(TSharedPtr<FParametricGenerator>
 	this->MeshGenerator = NewMeshGenerator;
 
 	this->PostSetMeshGenerator();
-}
-
-void UParametricMeshComponent::UpdateStaticMeshFromDynamicMesh(
-	UStaticMesh* InStaticMesh,
-	const FDynamicMesh3& InMesh)
-{
-	FMeshDescription MeshDescription;
-	FStaticMeshAttributes StaticMeshAttributes(MeshDescription);
-	StaticMeshAttributes.Register();
-
-	FDynamicMeshToMeshDescription Converter;
-	Converter.Convert(&InMesh, MeshDescription);
-
-	// todo: vertex color support
-
-	//UStaticMesh* StaticMesh = NewObject<UStaticMesh>(Component);
-	//FName MaterialSlotName = StaticMesh->AddMaterial(MyMaterial);
-
-	// Build the static mesh render data, one FMeshDescription* per LOD.
-	TArray<const FMeshDescription*> MeshDescriptionPtrs;
-	MeshDescriptionPtrs.Emplace(&MeshDescription);
-	InStaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs);
 }

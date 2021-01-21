@@ -41,7 +41,7 @@ public:
 	void SetMeshGenerator(TSharedPtr<FParametricGenerator> MeshGenerator);
 
 	UPROPERTY(BlueprintAssignable, Category = "Test")
-	FOnUpdateMesh OnUpdateMesh;
+	FOnUpdateMesh EventUpdateMesh;
 
 protected:
 	TSharedPtr<FParametricGenerator> MeshGenerator;
@@ -49,8 +49,6 @@ protected:
 	virtual void PostSetMeshGenerator() {};
 
 private:
-
-	void UpdateStaticMeshFromDynamicMesh(UStaticMesh* InStaticMesh, const FDynamicMesh3& Mesh);
 	
 	// Initialized as UDefaultParametersUpdateStrategy 
 	UPROPERTY()

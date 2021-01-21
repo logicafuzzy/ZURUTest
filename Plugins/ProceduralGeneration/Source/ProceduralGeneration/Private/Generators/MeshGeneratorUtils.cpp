@@ -1,5 +1,9 @@
 #include "Generators/MeshGeneratorUtils.h"
 
+#include "MeshDescription.h"
+#include "StaticMeshAttributes.h"
+#include "DynamicMeshToMeshDescription.h"
+
 void MeshGeneratorUtils::MergeGeneratedMesh(FMeshShapeGenerator& Source, FMeshShapeGenerator& Dest)
 {
 
@@ -74,5 +78,27 @@ void MeshGeneratorUtils::MergeGeneratedMesh(FMeshShapeGenerator& Source, FMeshSh
 		Dest.TrianglePolygonIDs.Add(TrianglePolygonID + nTriangles);
 	}
 
+}
 
+PROCEDURALGENERATION_API UStaticMesh * MeshGeneratorUtils::UpdateStaticMesh(FMeshShapeGenerator* Source, UStaticMesh* StaticMesh, FDynamicMesh3& DynamicMesh)
+{
+	DynamicMesh.Copy(&Source->Generate());
+
+	FMeshDescription MeshDescription;
+	FStaticMeshAttributes StaticMeshAttributes(MeshDescription);
+	StaticMeshAttributes.Register();
+
+	FDynamicMeshToMeshDescription Converter;
+	Converter.Convert(&DynamicMesh, MeshDescription);
+
+	// todo: vertex color support
+
+	//UStaticMesh* StaticMesh = NewObject<UStaticMesh>(Component);
+	//FName MaterialSlotName = StaticMesh->AddMaterial(MyMaterial);
+
+	// Build the static mesh render data, one FMeshDescription* per LOD.
+	TArray<const FMeshDescription*> MeshDescriptionPtrs;
+	MeshDescriptionPtrs.Emplace(&MeshDescription);
+	StaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs);
+	return StaticMesh;
 }
