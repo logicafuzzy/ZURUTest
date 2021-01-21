@@ -15,6 +15,7 @@ AResizableTable::AResizableTable()
 
 	ResizableMeshComponent = CreateDefaultSubobject<UParametricTableComponent>(TEXT("ParametricMeshComponent"));
 	ResizableMeshComponent->Material = TableMaterial;
+	ResizableMeshComponent->ComponentTags.Add("Table");
 	
 	RootComponent = ResizableMeshComponent;
 
