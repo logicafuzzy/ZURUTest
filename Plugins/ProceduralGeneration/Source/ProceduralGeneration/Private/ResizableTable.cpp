@@ -46,14 +46,14 @@ AResizableTable::AResizableTable()
 	ChairFrontRow->AttachToComponent(ManipulatorComponent->OriginComponent, AttachmentTransformRule);
 	ChairFrontRow->Offset = Offset;
 	ChairFrontRow->Size = Size;
-	ChairFrontRow->SetRelativeLocation({-Offset, 0, -ManipulatorComponent->GetRelativeLocation().Z });
+	ChairFrontRow->SetRelativeLocation({-2*Offset, 0, -ManipulatorComponent->GetRelativeLocation().Z });
 	ChairFrontRow->SpawnRotation = FRotator::MakeFromEuler({0, 0, -90});
 
 	ChairBackRow = CreateDefaultSubobject<UInstanceGeneratorComponent>(TEXT("ChairBackRow"));
 	ChairBackRow->Material = ChairMaterial;
 	ChairBackRow->SetParametricGenerator(ChairGenerator);
 	ChairBackRow->AttachToComponent(ManipulatorComponent->CornerComponent, AttachmentTransformRule);
-	ChairBackRow->SetRelativeLocation({ Offset, 0, -ManipulatorComponent->GetRelativeLocation().Z });
+	ChairBackRow->SetRelativeLocation({ 2*Offset, 0, -ManipulatorComponent->GetRelativeLocation().Z });
 	ChairBackRow->Offset = Offset;
 	ChairBackRow->Size = Size;
 	ChairBackRow->SpawnRotation = FRotator::MakeFromEuler({ 0, 0, 90 });
@@ -62,7 +62,7 @@ AResizableTable::AResizableTable()
 	ChairLeftRow->Material = ChairMaterial;
 	ChairLeftRow->SetParametricGenerator(ChairGenerator);
 	ChairLeftRow->AttachToComponent(ManipulatorComponent->TopLeftComponent, AttachmentTransformRule);
-	ChairLeftRow->SetRelativeLocation({ 0, -Offset, -ManipulatorComponent->GetRelativeLocation().Z });
+	ChairLeftRow->SetRelativeLocation({ 0, -2*Offset, -ManipulatorComponent->GetRelativeLocation().Z });
 	ChairLeftRow->Offset = Offset;
 	ChairLeftRow->Size = Size;
 	ChairLeftRow->SpawnRotation = FRotator::MakeFromEuler({ 0, 0, 0 });
@@ -71,7 +71,7 @@ AResizableTable::AResizableTable()
 	ChairRightRow->Material = ChairMaterial;
 	ChairRightRow->SetParametricGenerator(ChairGenerator);
 	ChairRightRow->AttachToComponent(ManipulatorComponent->BottomRightComponent, AttachmentTransformRule);
-	ChairRightRow->SetRelativeLocation({ 0, Offset, -ManipulatorComponent->GetRelativeLocation().Z });
+	ChairRightRow->SetRelativeLocation({ 0, 2*Offset, -ManipulatorComponent->GetRelativeLocation().Z });
 	ChairRightRow->Offset = Offset;
 	ChairRightRow->Size = Size;
 	ChairRightRow->SpawnRotation = FRotator::MakeFromEuler({ 0, 0, 180 });
