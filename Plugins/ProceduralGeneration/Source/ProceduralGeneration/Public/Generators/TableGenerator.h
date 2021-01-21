@@ -3,7 +3,7 @@
 #include "CoreMinimal.h"
 
 #include "Generators/MeshShapeGenerator.h"
-
+#include "Components/InstanceGeneratorComponent.h"
 
 class PROCEDURALGENERATION_API FTableGenerator : public FMeshShapeGenerator
 {
