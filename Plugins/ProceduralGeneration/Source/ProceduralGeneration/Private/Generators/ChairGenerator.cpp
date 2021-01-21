@@ -50,7 +50,7 @@ FMeshShapeGenerator& FChairGenerator::Generate()
 
 	//back
 	auto backSize = FVector(hW, hTLeg, hB);
-	GridBoxMeshGenerator.Box = FOrientedBox3d({ hTLeg, hL, height + hB}, backSize);
+	GridBoxMeshGenerator.Box = FOrientedBox3d({ hW, hTLeg, height + hB}, backSize);
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
 
 	return *this;
