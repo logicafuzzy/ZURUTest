@@ -91,8 +91,6 @@ void AMousePawn::OnClick()
 		}
 		UE_LOG(ProceduralGenerationLog, Display, TEXT("Hit %s"), *HitComponent->GetFName().ToString());
 	}
-
-	UE_LOG(ProceduralGenerationLog, Display, TEXT("Click"));
 }
 
 void AMousePawn::Tick(float deltatime)
@@ -110,16 +108,18 @@ void AMousePawn::Tick(float deltatime)
 		FVector Location, Direction;
 		PlayerController->DeprojectMousePositionToWorld(Location, Direction);
 
-		auto NewLocation = Location + HitDistance * Direction;
-		NewLocation.Z = DrivingComponent->GetComponentLocation().Z;
+		// NewLocation = Location + K * Direction
+		// Find K such that NewLocation.Z = DrivingComponent->GetComponentLocation().Z
+		
+		auto K = (DrivingComponent->GetComponentLocation().Z - Location.Z) / Direction.Z;
 
-		DrivingComponent->SetWorldLocation(NewLocation);
+		DrivingComponent->SetWorldLocation(Location + K*Direction);
 
 		ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
 	}
 	else if (bDragging)
 	{
-
+		UE_LOG(ProceduralGenerationLog, Display, TEXT("Table"));
 	}
 }
 
