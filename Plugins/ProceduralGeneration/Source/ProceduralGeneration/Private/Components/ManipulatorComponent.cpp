@@ -43,7 +43,6 @@ void UManipulatorComponent::SetParametricMesh(UParametricMeshComponent* NewParam
 	UpdateParametricMesh(CornerComponent);
 }
 
-#pragma optimize ("",off)
 void UManipulatorComponent::UpdateParametricMesh(UStaticMeshComponent* DrivingComponent)
 {
 
