@@ -144,6 +144,7 @@ void AMousePawn::Tick(float deltatime)
 void AMousePawn::OnRelease()
 {
 	bGrabbing = false;
+	bDragging = false;
 	HitComponent = nullptr;
 	HitDistance = 0.f;
 }
