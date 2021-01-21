@@ -115,10 +115,10 @@ void AMousePawn::Tick(float deltatime)
 			check(DrivingComponent);
 
 			// NewLocation = Location + K * Direction
-			// Find K such that Location.Z + K * Direction.Z = DrivingComponent->GetComponentLocation().Z
-			auto K = (DrivingComponent->GetComponentLocation().Z - Location.Z) / Direction.Z;
+			// Find K such that Location.Z + K * Direction.Z = HitLocation.Z
+			auto K = (HitLocation.Z - Location.Z) / Direction.Z;
 
-			DrivingComponent->SetWorldLocation(Location + K * Direction);
+			DrivingComponent->SetWorldLocation(Location + K * Direction - DragDelta);
 
 			ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
 		}
