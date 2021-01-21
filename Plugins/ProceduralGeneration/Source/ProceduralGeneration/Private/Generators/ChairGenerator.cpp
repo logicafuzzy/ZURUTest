@@ -34,7 +34,7 @@ FMeshShapeGenerator& FChairGenerator::Generate()
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
 	
 	//Legs
-	auto legSize = FVector3d({ hTLeg, hTLeg, hH - hTTop });
+	auto legSize = FVector(hTLeg, hTLeg, hH - hTTop);
 
 	GridBoxMeshGenerator.Box = FOrientedBox3d({ hTLeg, hTLeg, hHLeg}, legSize);
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
@@ -49,7 +49,7 @@ FMeshShapeGenerator& FChairGenerator::Generate()
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
 
 	//back
-	auto backSize = FVector3d({hW, hTLeg, hB});
+	auto backSize = FVector(hW, hTLeg, hB);
 	GridBoxMeshGenerator.Box = FOrientedBox3d({ hW, hL, hB}, backSize);
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
 
