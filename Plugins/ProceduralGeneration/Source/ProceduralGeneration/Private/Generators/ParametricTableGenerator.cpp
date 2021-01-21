@@ -25,6 +25,5 @@ FMeshShapeGenerator& FParametricTableGenerator::Generate()
 	if (MeshParams.ScalarParams.Contains(HeightParamName))
 		TableGenerator->height = *MeshParams.ScalarParams.Find(HeightParamName);
 
-	UE_LOG(ProceduralGenerationLog, Display, TEXT("FParametricTableGenerator::Generate()"));
 	return FParametricGenerator::Generate();
 }
