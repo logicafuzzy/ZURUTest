@@ -22,6 +22,9 @@ public:
 	FName FloorTag;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	FName TableTag;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TSubclassOf<AActor> ActorClassToSpawn;
 
 	UPROPERTY(VisibleAnywhere)
@@ -37,9 +40,15 @@ private:
 	UPrimitiveComponent* HitComponent;
 
 	bool bGrabbing;
+	bool bDragging;
+
 	float HitDistance;
 
 	bool bCameraDragging;
+	
+	//initial delta when dragging starts
+	FVector DragDelta;
+	FVector HitLocation;
 
 	UFUNCTION()
 	void OnClick();

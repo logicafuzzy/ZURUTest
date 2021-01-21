@@ -10,14 +10,13 @@
 
 AMousePawn::AMousePawn()
 	: FloorTag(TEXT("Floor"))
+	, TableTag(TEXT("Table"))
 	, ActorClassToSpawn(AResizableTable::StaticClass())
 	, HitComponent(nullptr)
 	, bGrabbing(false)
 	, HitDistance(0.f)
 	, bCameraDragging(false)
 {
-
-
 	SetActorTickEnabled(false);
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.SetTickFunctionEnable(true);
@@ -73,6 +72,7 @@ void AMousePawn::OnClick()
 
 	HitComponent = Hit.GetComponent();
 	HitDistance = Hit.Distance;
+	HitLocation = Hit.Location;
 
 	if (HitComponent)
 	{
@@ -83,11 +83,15 @@ void AMousePawn::OnClick()
 		{
 			SetActorTickEnabled(true);
 			bGrabbing = true;
+
+			DragDelta = Hit.Location - HitComponent->GetComponentLocation();
 		}
 		else if (HitComponent->ComponentHasTag(TableTag))
 		{
 			SetActorTickEnabled(true);
 			bDragging = true;
+
+			DragDelta = Hit.Location - HitComponent->GetAttachmentRootActor()->GetActorLocation();
 		}
 		UE_LOG(ProceduralGenerationLog, Display, TEXT("Hit %s"), *HitComponent->GetFName().ToString());
 	}
@@ -95,31 +99,41 @@ void AMousePawn::OnClick()
 
 void AMousePawn::Tick(float deltatime)
 {
-	if (bGrabbing && HitComponent && Cast<UManipulatorComponent>(HitComponent->GetAttachParent()))
+	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+	check(PlayerController);
+
+	FVector Location, Direction;
+	PlayerController->DeprojectMousePositionToWorld(Location, Direction);
+
+	if (HitComponent)
 	{
-		auto ManipulatorComponent = Cast<UManipulatorComponent>(HitComponent->GetAttachParent());
+		if (bGrabbing && Cast<UManipulatorComponent>(HitComponent->GetAttachParent()))
+		{
+			auto ManipulatorComponent = Cast<UManipulatorComponent>(HitComponent->GetAttachParent());
 
-		auto DrivingComponent = Cast<UStaticMeshComponent>(HitComponent);
-		check(DrivingComponent);
+			auto DrivingComponent = Cast<UStaticMeshComponent>(HitComponent);
+			check(DrivingComponent);
 
-		auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
-		check(PlayerController);
+			// NewLocation = Location + K * Direction
+			// Find K such that Location.Z + K * Direction.Z = DrivingComponent->GetComponentLocation().Z
+			auto K = (DrivingComponent->GetComponentLocation().Z - Location.Z) / Direction.Z;
 
-		FVector Location, Direction;
-		PlayerController->DeprojectMousePositionToWorld(Location, Direction);
+			DrivingComponent->SetWorldLocation(Location + K * Direction);
 
-		// NewLocation = Location + K * Direction
-		// Find K such that NewLocation.Z = DrivingComponent->GetComponentLocation().Z
-		
-		auto K = (DrivingComponent->GetComponentLocation().Z - Location.Z) / Direction.Z;
+			ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
+		}
+		else if (bDragging)
+		{
+			auto HitPosition = Location + HitDistance * Direction;
+			auto HitActor = HitComponent->GetAttachmentRootActor();
+			auto HitActorLocation = HitActor->GetActorLocation();
+			
+			// NewLocation = Location + K * Direction
+			// Find K such that Location.Z + K * Direction.Z = InitialHitLocation.Z
+			auto K = (HitLocation.Z - Location.Z) / Direction.Z;
 
-		DrivingComponent->SetWorldLocation(Location + K*Direction);
-
-		ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
-	}
-	else if (bDragging)
-	{
-		UE_LOG(ProceduralGenerationLog, Display, TEXT("Table"));
+			HitActor->SetActorLocation(Location + K * Direction - DragDelta);
+		}
 	}
 }
 
