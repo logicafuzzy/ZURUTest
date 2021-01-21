@@ -34,6 +34,8 @@ void UParametricMeshComponent::UpdateMesh(const FMeshParams& NewParams)
 	//TODO: support multiple material slots
 	UMaterialInterface* UseMaterial = (this->Material != nullptr) ? this->Material : UMaterial::GetDefaultMaterial(MD_Surface);
 	this->SetMaterial(0, UseMaterial);
+
+	OnUpdateMesh.Broadcast(MeshParams);
 }
 
 void UParametricMeshComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)

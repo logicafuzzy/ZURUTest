@@ -10,6 +10,8 @@
 
 #include "ParametricMeshComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUpdateMesh, const FMeshParams&, MeshParams);
+
 UCLASS(Blueprintable, meta = (BlueprintSpawnableComponent))
 class PROCEDURALGENERATION_API UParametricMeshComponent : public UStaticMeshComponent
 {
@@ -37,6 +39,9 @@ public:
 	virtual void PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams);
 
 	void SetMeshGenerator(TSharedPtr<FParametricGenerator> MeshGenerator);
+
+	UPROPERTY(BlueprintAssignable, Category = "Test")
+	FOnUpdateMesh OnUpdateMesh;
 
 protected:
 	TSharedPtr<FParametricGenerator> MeshGenerator;
