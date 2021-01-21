@@ -26,7 +26,6 @@ FMeshShapeGenerator& FTableGenerator::Generate()
 
 	//TOP
 	FGridBoxMeshGenerator GridBoxMeshGenerator;
-	GridBoxMeshGenerator.bScaleUVByAspectRatio = false;
 	//Gridbox has origin in the center and has 2x box extent size
 	GridBoxMeshGenerator.Box = FOrientedBox3d({ hW, hL, height - hTTop }, { hW, hL, hTTop });
 	MeshGeneratorUtils::MergeGeneratedMesh(GridBoxMeshGenerator.Generate(), *this);
