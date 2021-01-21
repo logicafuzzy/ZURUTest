@@ -8,8 +8,10 @@
 AResizableTable::AResizableTable()
 {
 	FStringAssetReference TableMaterialPath(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Oak.M_Wood_Oak'"));
+	FStringAssetReference ChairMaterialPath(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Pine.M_Wood_Pine'"));
 
 	auto TableMaterial = Cast<UMaterialInterface>(TableMaterialPath.TryLoad());
+	auto ChairMaterial = Cast<UMaterialInterface>(ChairMaterialPath.TryLoad());
 
 	ResizableMeshComponent = CreateDefaultSubobject<UParametricTableComponent>(TEXT("ParametricMeshComponent"));
 	ResizableMeshComponent->Material = TableMaterial;
@@ -38,7 +40,7 @@ AResizableTable::AResizableTable()
 	//todo: make them share the same instance
 	//todo2: too much of a copy paste thing. Make a parametric function instead
 	ChairFrontRow = CreateDefaultSubobject<UInstanceGeneratorComponent>(TEXT("ChairFrontRow"));
-	ChairFrontRow->Material = TableMaterial;
+	ChairFrontRow->Material = ChairMaterial;
 	ChairFrontRow->SetParametricGenerator(ChairGenerator);
 	ChairFrontRow->AttachToComponent(ManipulatorComponent->OriginComponent, AttachmentTransformRule);
 	ChairFrontRow->Offset = Offset;
@@ -47,7 +49,7 @@ AResizableTable::AResizableTable()
 	ChairFrontRow->SpawnRotation = FRotator::MakeFromEuler({0, 0, -90});
 
 	ChairBackRow = CreateDefaultSubobject<UInstanceGeneratorComponent>(TEXT("ChairBackRow"));
-	ChairBackRow->Material = TableMaterial;
+	ChairBackRow->Material = ChairMaterial;
 	ChairBackRow->SetParametricGenerator(ChairGenerator);
 	ChairBackRow->AttachToComponent(ManipulatorComponent->CornerComponent, AttachmentTransformRule);
 	ChairBackRow->SetRelativeLocation({ Offset, 0, -ManipulatorComponent->GetRelativeLocation().Z });
@@ -56,7 +58,7 @@ AResizableTable::AResizableTable()
 	ChairBackRow->SpawnRotation = FRotator::MakeFromEuler({ 0, 0, 90 });
 
 	ChairLeftRow = CreateDefaultSubobject<UInstanceGeneratorComponent>(TEXT("ChairLeftRow"));
-	ChairLeftRow->Material = TableMaterial;
+	ChairLeftRow->Material = ChairMaterial;
 	ChairLeftRow->SetParametricGenerator(ChairGenerator);
 	ChairLeftRow->AttachToComponent(ManipulatorComponent->TopLeftComponent, AttachmentTransformRule);
 	ChairLeftRow->SetRelativeLocation({ 0, -Offset, -ManipulatorComponent->GetRelativeLocation().Z });
@@ -65,7 +67,7 @@ AResizableTable::AResizableTable()
 	ChairLeftRow->SpawnRotation = FRotator::MakeFromEuler({ 0, 0, 0 });
 
 	ChairRightRow = CreateDefaultSubobject<UInstanceGeneratorComponent>(TEXT("ChairRightRow"));
-	ChairRightRow->Material = TableMaterial;
+	ChairRightRow->Material = ChairMaterial;
 	ChairRightRow->SetParametricGenerator(ChairGenerator);
 	ChairRightRow->AttachToComponent(ManipulatorComponent->BottomRightComponent, AttachmentTransformRule);
 	ChairRightRow->SetRelativeLocation({ 0, Offset, -ManipulatorComponent->GetRelativeLocation().Z });
