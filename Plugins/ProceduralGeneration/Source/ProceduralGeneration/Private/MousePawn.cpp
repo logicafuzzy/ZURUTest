@@ -69,7 +69,7 @@ void AMousePawn::OnClick()
 	FHitResult Hit;
 	const bool bUseComplexCollision = true;
 	
-	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::Persistent, Hit, false);
+	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::None, Hit, false);
 
 	HitComponent = Hit.GetComponent();
 	HitDistance = Hit.Distance;
@@ -83,7 +83,11 @@ void AMousePawn::OnClick()
 		{
 			SetActorTickEnabled(true);
 			bGrabbing = true;
-
+		}
+		else if (HitComponent->ComponentHasTag(TableTag))
+		{
+			SetActorTickEnabled(true);
+			bDragging = true;
 		}
 		UE_LOG(ProceduralGenerationLog, Display, TEXT("Hit %s"), *HitComponent->GetFName().ToString());
 	}
@@ -113,7 +117,7 @@ void AMousePawn::Tick(float deltatime)
 
 		ManipulatorComponent->UpdateParametricMesh(DrivingComponent);
 	}
-	else if (bCameraDragging)
+	else if (bDragging)
 	{
 
 	}

@@ -11,11 +11,6 @@ UParametricTableComponent::UParametricTableComponent()
 
 	this->SetParametersUpdateStrategy(Strategy);
 	this->MeshGenerator = Generator;
-	
-	FStringAssetReference TableMaterialPath(TEXT("Material'/Game/StarterContent/Materials/M_Wood_Oak.M_Wood_Oak'"));
-
-	auto TableMaterial = Cast<UMaterialInterface>(TableMaterialPath.TryLoad());
-	this->Material = TableMaterial;
 
 	MeshParams.VectorParams.Add(Strategy->OriginParamName, { 0, 0, 0 });
 	MeshParams.VectorParams.Add(Strategy->CornerParamName, { 100, 100, 0 });
