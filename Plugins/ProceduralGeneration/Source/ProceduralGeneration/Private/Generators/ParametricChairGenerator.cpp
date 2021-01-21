@@ -11,6 +11,7 @@ FParametricChairGenerator::FParametricChairGenerator()
 	ChairGenerator = static_cast<FChairGenerator*>(this->DecoratedMeshShapeGenerator);
 
 	ChairGenerator->height = 55.0f;
+	ChairGenerator->width = 55.0f;
 	ChairGenerator->legThickness = 5.0f;
 	ChairGenerator->topThickness = 3.0f;
 	ChairGenerator->backHeight = 45.0f;
