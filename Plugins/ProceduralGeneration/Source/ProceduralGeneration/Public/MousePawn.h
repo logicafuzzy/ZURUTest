@@ -77,4 +77,9 @@ private:
 
 	UFUNCTION()
 	void Zoom(float value);
+
+	UFUNCTION()
+	void Quit();
+
+
 };

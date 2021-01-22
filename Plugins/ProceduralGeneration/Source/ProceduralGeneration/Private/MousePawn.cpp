@@ -39,9 +39,11 @@ AMousePawn::AMousePawn()
 		PlayerController->InputComponent->BindAction("MouseRight", IE_Released, this, &AMousePawn::StopDrag);
 		PlayerController->InputComponent->BindAction("MouseCenter", IE_Pressed, this, &AMousePawn::StartPan);
 		PlayerController->InputComponent->BindAction("MouseCenter", IE_Released, this, &AMousePawn::StopPan);
+		PlayerController->InputComponent->BindAction("Quit", IE_Released, this, &AMousePawn::Quit);
 		PlayerController->InputComponent->BindAxis("Yaw", this, &AMousePawn::Yaw);
 		PlayerController->InputComponent->BindAxis("Pitch", this, &AMousePawn::Pitch);
 		PlayerController->InputComponent->BindAxis("Zoom", this, &AMousePawn::Zoom);
+
 	}
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -185,4 +187,9 @@ void AMousePawn::Zoom(float value)
 {
 	//this->CameraComponent->FieldOfView += value;
 	this->AddActorLocalOffset({ 10.0f*value, 0, 0 });
+}
+
+void AMousePawn::Quit()
+{
+	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(this, 0), EQuitPreference::Quit, true);
 }
