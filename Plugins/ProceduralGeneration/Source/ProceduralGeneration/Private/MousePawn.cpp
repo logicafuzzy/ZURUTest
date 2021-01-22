@@ -39,6 +39,8 @@ AMousePawn::AMousePawn()
 		PlayerController->InputComponent->BindAction("MouseRight", IE_Released, this, &AMousePawn::StopDrag);
 		PlayerController->InputComponent->BindAction("MouseCenter", IE_Pressed, this, &AMousePawn::StartPan);
 		PlayerController->InputComponent->BindAction("MouseCenter", IE_Released, this, &AMousePawn::StopPan);
+		PlayerController->InputComponent->BindAction("RemoveTable", IE_Released, this, &AMousePawn::Remove);
+		PlayerController->InputComponent->BindAction("RemoveTable", IE_Released, this, &AMousePawn::OnRelease);
 		PlayerController->InputComponent->BindAction("Quit", IE_Released, this, &AMousePawn::Quit);
 		PlayerController->InputComponent->BindAxis("Yaw", this, &AMousePawn::Yaw);
 		PlayerController->InputComponent->BindAxis("Pitch", this, &AMousePawn::Pitch);
@@ -192,4 +194,26 @@ void AMousePawn::Zoom(float value)
 void AMousePawn::Quit()
 {
 	UKismetSystemLibrary::QuitGame(GetWorld(), UGameplayStatics::GetPlayerController(this, 0), EQuitPreference::Quit, true);
+}
+
+void AMousePawn::Remove()
+{
+	//copypaste todo: make it better
+	auto PlayerController = UGameplayStatics::GetPlayerController(this, 0);
+
+	FVector Location, Direction;
+
+	PlayerController->DeprojectMousePositionToWorld(Location, Direction);
+
+	FHitResult Hit;
+	const bool bUseComplexCollision = false;
+
+	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::None, Hit, false);
+
+	HitComponent = Hit.GetComponent();
+
+	if (HitComponent && (HitComponent->ComponentHasTag(TableTag)))
+	{
+		HitComponent->GetAttachmentRootActor()->Destroy();
+	}
 }

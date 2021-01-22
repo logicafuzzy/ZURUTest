@@ -39,6 +39,7 @@ private:
 	UPROPERTY()
 	UPrimitiveComponent* HitComponent;
 
+	//todo: make those booleans an ENUM
 	bool bGrabbing;
 	bool bDragging;
 
@@ -80,6 +81,9 @@ private:
 
 	UFUNCTION()
 	void Quit();
+
+	UFUNCTION()
+	void Remove();
 
 
 };
