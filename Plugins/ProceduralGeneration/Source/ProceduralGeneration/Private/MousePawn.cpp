@@ -43,10 +43,6 @@ AMousePawn::AMousePawn()
 		PlayerController->InputComponent->BindAxis("Pitch", this, &AMousePawn::Pitch);
 		PlayerController->InputComponent->BindAxis("Zoom", this, &AMousePawn::Zoom);
 	}
-	else
-	{
-		UE_LOG(ProceduralGenerationLog, Error, TEXT("PlayerController is nullptr"));
-	}
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArmComponent->SetupAttachment(this->RootComponent);

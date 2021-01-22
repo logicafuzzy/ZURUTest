@@ -99,6 +99,6 @@ PROCEDURALGENERATION_API UStaticMesh * MeshGeneratorUtils::UpdateStaticMesh(FMes
 	// Build the static mesh render data, one FMeshDescription* per LOD.
 	TArray<const FMeshDescription*> MeshDescriptionPtrs;
 	MeshDescriptionPtrs.Emplace(&MeshDescription);
-	StaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs);
+	StaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs, true);
 	return StaticMesh;
 }
