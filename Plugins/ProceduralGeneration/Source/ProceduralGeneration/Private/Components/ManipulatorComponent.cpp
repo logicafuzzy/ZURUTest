@@ -17,18 +17,22 @@ UManipulatorComponent::UManipulatorComponent()
 	//TODO make it UParametricSphereComponent
 	OriginComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("OriginComponent"));
 	OriginComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(OriginComponent)->bBuildCollision = true;
 	Cast<UParametricMeshComponent>(OriginComponent)->UpdateMesh(SphereParams);
 
 	CornerComponent	= CreateDefaultSubobject<UParametricMeshComponent>(TEXT("CornerComponent"));
 	CornerComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(CornerComponent)->bBuildCollision = true;
 	Cast<UParametricMeshComponent>(CornerComponent)->UpdateMesh(SphereParams);
 
 	BottomRightComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("BottomRightComponent"));
 	BottomRightComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(BottomRightComponent)->bBuildCollision = true;
 	Cast<UParametricMeshComponent>(BottomRightComponent)->UpdateMesh(SphereParams);
 	
 	TopLeftComponent = CreateDefaultSubobject<UParametricMeshComponent>(TEXT("TopLeftComponent"));
 	TopLeftComponent->SetupAttachment(this);
+	Cast<UParametricMeshComponent>(TopLeftComponent)->bBuildCollision = true;
 	Cast<UParametricMeshComponent>(TopLeftComponent)->UpdateMesh(SphereParams);
 
 }
