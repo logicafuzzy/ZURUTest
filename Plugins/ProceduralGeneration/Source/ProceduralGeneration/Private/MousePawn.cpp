@@ -66,7 +66,7 @@ void AMousePawn::OnClick()
 	PlayerController->DeprojectMousePositionToWorld(Location, Direction);
 
 	FHitResult Hit;
-	const bool bUseComplexCollision = true;
+	const bool bUseComplexCollision = false;
 	
 	UKismetSystemLibrary::LineTraceSingle(this, Location, Location + 10000.0f*Direction, UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), bUseComplexCollision, TArray<AActor*>(), EDrawDebugTrace::None, Hit, false);
 
