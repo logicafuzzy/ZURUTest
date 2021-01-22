@@ -15,6 +15,7 @@ class PROCEDURALGENERATION_API UInstanceGeneratorComponent : public UInstancedSt
 	GENERATED_BODY()
 
 public:
+	UInstanceGeneratorComponent();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	UMaterialInterface* Material;
@@ -24,7 +25,11 @@ public:
 	FVector Start;
 	FVector End;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FRotator SpawnRotation;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bBuildCollision;
 
 	float Offset;
 	float Size;

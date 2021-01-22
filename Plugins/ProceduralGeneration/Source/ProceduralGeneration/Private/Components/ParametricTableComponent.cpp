@@ -18,6 +18,7 @@ UParametricTableComponent::UParametricTableComponent()
 	MeshParams.ScalarParams.Add(Generator->LengthParamName, 100);
 	MeshParams.ScalarParams.Add(Generator->HeightParamName, 85);
 
+	bBuildCollision = true;
 }
 
 void UParametricTableComponent::PostUpdateStrategy_Implementation(const FMeshParams& UpdatedParams)

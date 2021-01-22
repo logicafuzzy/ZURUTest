@@ -10,5 +10,5 @@ namespace MeshGeneratorUtils
 	PROCEDURALGENERATION_API void MergeGeneratedMesh(FMeshShapeGenerator& Source, FMeshShapeGenerator& Dest);
 
 	//take it out from ParametriMEshComponent
-	PROCEDURALGENERATION_API UStaticMesh* UpdateStaticMesh(FMeshShapeGenerator* Source, UStaticMesh* StaticMesh, FDynamicMesh3& DynamicMesh);
+	PROCEDURALGENERATION_API UStaticMesh* UpdateStaticMesh(FMeshShapeGenerator* Source, UStaticMesh* StaticMesh, FDynamicMesh3& DynamicMesh, bool bBuildCollision);
 }

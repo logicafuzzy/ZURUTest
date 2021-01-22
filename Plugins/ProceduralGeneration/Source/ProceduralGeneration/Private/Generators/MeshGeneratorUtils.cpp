@@ -80,7 +80,7 @@ void MeshGeneratorUtils::MergeGeneratedMesh(FMeshShapeGenerator& Source, FMeshSh
 
 }
 
-PROCEDURALGENERATION_API UStaticMesh * MeshGeneratorUtils::UpdateStaticMesh(FMeshShapeGenerator* Source, UStaticMesh* StaticMesh, FDynamicMesh3& DynamicMesh)
+PROCEDURALGENERATION_API UStaticMesh * MeshGeneratorUtils::UpdateStaticMesh(FMeshShapeGenerator* Source, UStaticMesh* StaticMesh, FDynamicMesh3& DynamicMesh, bool bBuildCollision)
 {
 	DynamicMesh.Copy(&Source->Generate());
 
@@ -99,6 +99,6 @@ PROCEDURALGENERATION_API UStaticMesh * MeshGeneratorUtils::UpdateStaticMesh(FMes
 	// Build the static mesh render data, one FMeshDescription* per LOD.
 	TArray<const FMeshDescription*> MeshDescriptionPtrs;
 	MeshDescriptionPtrs.Emplace(&MeshDescription);
-	StaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs, true);
+	StaticMesh->BuildFromMeshDescriptions(MeshDescriptionPtrs, bBuildCollision);
 	return StaticMesh;
 }

@@ -5,6 +5,10 @@
 
 #include "DrawDebugHelpers.h"
 
+UInstanceGeneratorComponent::UInstanceGeneratorComponent()
+	: bBuildCollision(false)
+{}
+
 void UInstanceGeneratorComponent::SetParametricGenerator(TSharedPtr<FParametricGenerator> NewParametricGenerator)
 {
 	this->MeshGenerator = NewParametricGenerator;
@@ -16,7 +20,7 @@ void UInstanceGeneratorComponent::SetParametricGenerator(TSharedPtr<FParametricG
 		NewStaticMesh->StaticMaterials.Add(FStaticMaterial());
 	}
 
-	MeshGeneratorUtils::UpdateStaticMesh(MeshGenerator.Get(), GetStaticMesh(), DynamicMesh);
+	MeshGeneratorUtils::UpdateStaticMesh(MeshGenerator.Get(), GetStaticMesh(), DynamicMesh, bBuildCollision);
 
 	//TODO: support multiple material slots
 	UMaterialInterface* UseMaterial = (this->Material != nullptr) ? this->Material : UMaterial::GetDefaultMaterial(MD_Surface);

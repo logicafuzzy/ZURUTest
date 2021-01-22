@@ -25,6 +25,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
 	FMeshParams MeshParams;
 
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly)
+	bool bBuildCollision;
+
 	UFUNCTION(Blueprintcallable)
 	void UpdateMesh(const FMeshParams& NewParams);
 

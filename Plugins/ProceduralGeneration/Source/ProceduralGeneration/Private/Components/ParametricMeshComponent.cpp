@@ -6,6 +6,7 @@
 #include "Generators/MeshGeneratorUtils.h"
 
 UParametricMeshComponent::UParametricMeshComponent()
+	: bBuildCollision(false)
 {
 	this->UpdateStrategy = CreateDefaultSubobject<UDefaultParametersUpdateStrategy>(TEXT("DefaultParametersUpdateStrategy"));
 	this->MeshGenerator = MakeShared<FParametricSphereGenerator>();
@@ -25,7 +26,7 @@ void UParametricMeshComponent::UpdateMesh(const FMeshParams& NewParams)
 		NewStaticMesh->StaticMaterials.Add(FStaticMaterial());
 	}
 
-	MeshGeneratorUtils::UpdateStaticMesh(MeshGenerator.Get(), GetStaticMesh(), DynamicMesh);
+	MeshGeneratorUtils::UpdateStaticMesh(MeshGenerator.Get(), GetStaticMesh(), DynamicMesh, bBuildCollision);
 
 	//TODO: support multiple material slots
 	UMaterialInterface* UseMaterial = (this->Material != nullptr) ? this->Material : UMaterial::GetDefaultMaterial(MD_Surface);
